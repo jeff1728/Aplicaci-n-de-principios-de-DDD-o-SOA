@@ -36,9 +36,11 @@ app.use((req, _, next) => {
 app.use('/auth/login', require('./routes/auth'));
 
 // Funcion auxiliar para crear opciones del proxy
+// pathRewrite elimina el prefijo /api antes de reenviar al servicio
 const proxyOpts = (target, name) => ({
     target,
     changeOrigin: true,
+    pathRewrite: { '^/api': '' },
     on: {
         error: (err, req, res) => {
             logger.error(`[${name}] ${err.message}`);
